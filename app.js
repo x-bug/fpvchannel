@@ -1,7 +1,7 @@
-const clientId = 'DEINE_CLIENT_ID'; // Ersetze mit deiner Mastodon-App Client ID
-const clientSecret = 'DEIN_CLIENT_SECRET'; // Ersetze mit deinem Mastodon-App Client Secret
-const redirectUri = 'https://username.github.io/repository_name'; // Ersetze mit deiner GitHub Pages URL
-const mastodonInstance = 'https://mastodon.social'; // Deine Mastodon-Instanz
+const clientId = 'KunMEttgzASaFVyVKXxzRc6vQXorIHp7EJ1CA_vUAF8'; // Ersetze mit deiner Mastodon-App Client ID
+const clientSecret = 'aUZiZALB4UZ36hjzj4sJ4PsNhFIC_6PwL9AzHQJe-JA'; // Ersetze mit deinem Mastodon-App Client Secret
+const redirectUri = 'https://x-bug.github.io/fpvchannel/'; // Ersetze mit deiner GitHub Pages URL
+const mastodonInstance = 'https://fpv.social'; // Deine Mastodon-Instanz
 let userAccessToken = null;
 let userName = null;
 let selectedSpotId = null; // Die ID des ausgewählten Spots
