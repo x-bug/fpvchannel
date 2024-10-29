@@ -1,0 +1,52 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-top: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    padding: 5px;
+    background-color: #fff;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    margin: 5px;
+    padding: 10px;
+    border: 2px solid #ccc; /* Rahmen für alle Buttons */
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: white; /* Hintergrundfarbe für Standard-Buttons */
+    transition: background-color 0.3s, border-color 0.3s; /* Sanfte Übergänge */
+}
+
+.channel-button.selected {
+    background-color: green; /* Grüner Hintergrund für den gewählten Kanal */
+    color: white;
+    border-color: darkgreen; /* Dunklerer Rahmen für den gewählten Kanal */
+}
+
+.channel-button.occupied {
+    background-color: red; /* Roter Hintergrund für belegte Kanäle */
+    color: white;
+    border-color: darkred; /* Dunklerer Rahmen für belegte Kanäle */
+}
