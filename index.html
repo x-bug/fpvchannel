@@ -1,81 +1,36 @@
-<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Bluetooth Geräte verbinden</title><link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css"><script>
-        let connectedDevices = [];
-        let selectedChannel = null; // Variable zum Speichern des gewählten Kanals
-        let occupiedChannels = new Set(); // Set für belegte Kanäle
-
-        // Überprüfen, ob Bluetooth Low Energy unterstützt wird
-        if (!navigator.bluetooth) {
-            alert("Ihr Gerät oder Browser unterstützt kein Bluetooth Low Energy. Bitte verwenden Sie einen kompatiblen Browser oder ein kompatibles Gerät.");
-        }
-
-        async function connectToBluetoothDevice() {
-            try {
-                const device = await navigator.bluetooth.requestDevice({
-                    filters: [{ services: ['battery_service'] }]
-                });
-
-                const server = await device.gatt.connect();
-                connectedDevices.push(device);
-                updateDeviceList();
-
-                occupiedChannels.add(selectedChannel); // Belegten Kanal hinzufügen
-                updateButtonStyles();
-
-                device.addEventListener('gattserverdisconnected', () => {
-                    connectedDevices = connectedDevices.filter(d => d !== device);
-                    updateDeviceList();
-                    // Entfernen des belegten Kanals
-                    occupiedChannels.delete(selectedChannel);
-                    updateButtonStyles();
-                });
-            } catch (error) {
-                console.error('Fehler beim Verbinden mit Bluetooth-Gerät:', error);
-            }
-        }
-
-        function updateDeviceList() {
-            const deviceList = document.getElementById('device-list');
-            deviceList.innerHTML = '';
-
-            connectedDevices.forEach(device => {
-                const listItem = document.createElement('li');
-                listItem.textContent = device.name || 'Unbekanntes Gerät';
-                deviceList.appendChild(listItem);
-            });
-
-            const channelStatus = document.getElementById('channel-status');
-            channelStatus.textContent = selectedChannel ? `Aktueller Kanal: ${selectedChannel}` : 'Kein Kanal ausgewählt';
-        }
-
-        function selectChannel(channel) {
-            if (selectedChannel) {
-                alert(`Kanal ${selectedChannel} ist bereits gewählt. Bitte heben Sie die Auswahl auf, um einen neuen Kanal zu wählen.`);
-                return;
-            }
-            selectedChannel = channel;
-            updateButtonStyles();
-            updateDeviceList();
-        }
-
-        function deselectChannel() {
-            selectedChannel = null;
-            updateButtonStyles();
-            updateDeviceList();
-        }
-
-        function updateButtonStyles() {
-            const buttons = document.querySelectorAll('.channel-button');
-            buttons.forEach(button => {
-                const channel = parseInt(button.dataset.channel);
-                if (channel === selectedChannel) {
-                    button.classList.add('selected');
-                } else if (occupiedChannels.has(channel)) {
-                    button.classList.add('occupied');
-                } else {
-                    button.classList.remove('selected', 'occupied');
-                }
-            });
-        }
-    </script></head><body><h1>Bluetooth Geräte verbinden</h1><button id="connect-button">Mit Bluetooth-Gerät verbinden</button><h2>Wählen Sie einen Kanal:</h2><div><button class="channel-button" data-channel="1" onclick="selectChannel(1)">Kanal 1</button><button class="channel-button" data-channel="2" onclick="selectChannel(2)">Kanal 2</button><button class="channel-button" data-channel="3" onclick="selectChannel(3)">Kanal 3</button><button class="channel-button" data-channel="4" onclick="selectChannel(4)">Kanal 4</button><button class="channel-button" data-channel="5" onclick="selectChannel(5)">Kanal 5</button><button class="channel-button" data-channel="6" onclick="selectChannel(6)">Kanal 6</button><button class="channel-button" data-channel="7" onclick="selectChannel(7)">Kanal 7</button><button class="channel-button" data-channel="8" onclick="selectChannel(8)">Kanal 8</button></div><button id="deselect-button" onclick="deselectChannel()">Kanal abwählen</button><p id="channel-status">Kein Kanal ausgewählt</p><ul id="device-list"></ul><script>
-        document.getElementById('connect-button').addEventListener('click', connectToBluetoothDevice);
-    </script></body></html>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA Spot Kanal-Auswahl</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <h1>PWA Spot Kanal-Auswahl</h1>
+    
+    <div>
+        <button onclick="startUserAuth()">Mit Mastodon anmelden</button>
+        <button onclick="fetchSpots()">Verfügbare Spots laden</button>
+    </div>
+    
+    <div id="spot-list">
+        <h2>Verfügbare Spots</h2>
+        <!-- Die Spots werden hier durch fetchSpots() angezeigt -->
+    </div>
+    
+    <div id="channel-buttons">
+        <h2>Wähle einen Kanal</h2>
+        <button onclick="selectChannel(selectedSpotId, 'Kanal 1')">Kanal 1</button>
+        <button onclick="selectChannel(selectedSpotId, 'Kanal 2')">Kanal 2</button>
+        <button onclick="selectChannel(selectedSpotId, 'Kanal 3')">Kanal 3</button>
+        <button onclick="selectChannel(selectedSpotId, 'Kanal 4')">Kanal 4</button>
+    </div>
+    
+    <div id="channel-selections">
+        <h2>Aktuelle Kanalauswahlen</h2>
+        <!-- Die Kanalwahlen werden hier durch fetchChannelSelections() geladen -->
+    </div>
+</body>
+</html>
